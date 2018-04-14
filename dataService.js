@@ -1,10 +1,10 @@
 const fs = require(`fs`);
 
-function readJson(file) {
-    return JSON.parse(fs.readFileSync(file));
+function readJson(filename) {
+    return JSON.parse(fs.readFileSync(filename));
 }
-function writeJson(file, json) {
-    fs.writeFileSync(file, JSON.stringify(json, ' ', 4), { encoding: `utf8` });
+function writeJson(filename, json) {
+    fs.writeFileSync(filename, JSON.stringify(json, ' ', 4), { encoding: `utf8` });
 }
 
 module.exports = { readJson, writeJson };
