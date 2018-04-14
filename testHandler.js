@@ -1,4 +1,4 @@
-const {readJson, writeJson} = require(`./dataService`);
+const dataService = require(`./dataService`);
 const readRss = require(`./rssReader`);
 // const {postTweet} = require(`./twitterService`);
 
@@ -14,36 +14,69 @@ module.exports = async function testHandler(req, res) {
         Save data
         */
 
-        const data = readJson(dataFilename);
-        if (!data.tweetedLinks) {
-            data.tweetedLinks = {};
+        try {
+            dataService.load();
+        } catch (e) {
+            res.status(500).send(
+                `Failed to load data.
+                Message: ${e.message}
+                Stack: ${e.stack}`
+            );
+            return;
         }
-        const tweetedLinks = data.tweetedLinks;
-        const feed = await readRss(`http://rss.walla.co.il/feed/6?type=main`);
-        // const feed = await readRss(`http://localhost:3000/.mock-data/mock-feed.xml`);
+
+        let feed;
+        try {
+            feed = await readRss(`http://rss.walla.co.il/feed/6?type=main`);
+            // const feed = await readRss(`http://localhost:3000/.mock-data/mock-feed.xml`);
+        } catch (e) {
+            res.status(500).send(
+                `Failed to load RSS feed.
+                Message: ${e.message}
+                Stack: ${e.stack}`
+            );
+            return;
+        }
+
         const firstItem = feed.items[0];
 
         // big-ass logic here to take a decision
-        const tweeted = isItemTweeted(tweetedLinks, firstItem.link);
+        const tweeted = dataService.isItemTweeted(firstItem.link);
 
         if (!tweeted) { // then build a string from item
             const status = `${firstItem.title} \n${firstItem.link}`;
-            // postTweet(status);
-            markItemAsTweeted(tweetedLinks, firstItem.link);
-            writeJson(dataFilename, data);
+            try {
+                // postTweet(status);
+            } catch (e) {
+                res.status(500).send(
+                    `Failed to post tweet.
+                    Message: ${e.message}
+                    Stack: ${e.stack}`
+                );
+                return;
+            }
 
-            res.status(200).send(`Tweeted`);
+            dataService.markItemAsTweeted(firstItem.link);
+            try {
+                dataService.save();
+            } catch (e) {
+                res.status(500).send(
+                    `Failed to load save data, we may soon have a repeating tweet...
+                    Message: ${e.message}
+                    Stack: ${e.stack}`
+                );
+                return;
+            }
+
+            res.status(200).send(`Tweeted ${firstItem.title}`);
         } else {
-            res.status(200).send(`Not tweeted`);
+            res.status(200).send(`Not tweeted ${firstItem.title}`);
         }
     } catch (e) {
-        res.status(500).send(e.stack);
+        res.status(500).send(
+            `General error.
+            Message: ${e.message}
+            Stack: ${e.stack}`
+        );
     }
 };
-
-function isItemTweeted(tweetedLinks, itemLink) {
-    return tweetedLinks[itemLink] === true;
-}
-function markItemAsTweeted(tweetedLinks, itemLink) {
-    tweetedLinks[itemLink] = true;
-}
