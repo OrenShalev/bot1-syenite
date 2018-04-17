@@ -1,6 +1,6 @@
 const dataService = require(`./dataService`);
 const readRss = require(`./rssReader`);
-// const {postTweet} = require(`./twitterService`);
+const {postTweet} = require(`./twitterService`);
 
 const dataFilename = `.data/data.json`;
 module.exports = testHandler;
@@ -41,7 +41,7 @@ async function testHandler(req, res) {
 
         let statuses = [];
 
-        const candidates = feed.items.slice(0, 2);
+        const candidates = feed.items.slice(0, 3);
         candidates.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
 
         for (const item of candidates) {
@@ -50,7 +50,7 @@ async function testHandler(req, res) {
             if (shouldTweet) { // then build a string from item
                 const status = createStatus(item);
                 try {
-                    // postTweet(status);
+                    postTweet(status);
                 } catch (e) {
                     res.status(500).send(
                         `Failed to post tweet.

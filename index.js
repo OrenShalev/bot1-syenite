@@ -15,8 +15,12 @@ const express = require('express'),
 
 app.use(express.static('public'));
 
+app.all(`/yo`, (req, res) => {
+  res.sendStatus(200);
+});
+
 app.all(`/test`, testHandler);
 
-const listener = app.listen(/*process.env.PORT*/ 3000, function () {
+const listener = app.listen(process.env.PORT, function () {
     console.log('Your bot is running on port ' + listener.address().port);
 });
