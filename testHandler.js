@@ -33,7 +33,7 @@ async function testHandler(req, res) {
 
         let statuses = [];
 
-        const candidates = feed.items.slice(0, 2);
+        const candidates = feed.items || [];
         candidates.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
 
         candidates:
