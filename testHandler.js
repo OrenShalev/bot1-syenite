@@ -18,11 +18,7 @@ async function testHandler(req, res) {
         try {
             dataService.load();
         } catch (e) {
-            res.status(500).send(
-                `Failed to load data.
-                Message: ${e.message}
-                Stack: ${e.stack}`
-            );
+            sendError(res, `Failed to load data.`, e);
             return;
         }
 
@@ -31,11 +27,7 @@ async function testHandler(req, res) {
             feed = await readRss(`http://rss.walla.co.il/feed/6?type=main`);
             // const feed = await readRss(`http://localhost:3000/.mock-data/mock-feed.xml`);
         } catch (e) {
-            res.status(500).send(
-                `Failed to load RSS feed.
-                Message: ${e.message}
-                Stack: ${e.stack}`
-            );
+            sendError(res, `Failed to load RSS feed`, e);
             return;
         }
 
@@ -52,11 +44,7 @@ async function testHandler(req, res) {
                 try {
                     // postTweet(status);
                 } catch (e) {
-                    res.status(500).send(
-                        `Failed to post tweet.
-                        Message: ${e.message}
-                        Stack: ${e.stack}`
-                    );
+                    sendError(res, `Failed to post tweet`, e);
                     return;
                 }
 
@@ -64,11 +52,7 @@ async function testHandler(req, res) {
                 try {
                     dataService.save();
                 } catch (e) {
-                    res.status(500).send(
-                        `Failed to load save data, we may soon have a repeating tweet...
-                        Message: ${e.message}
-                        Stack: ${e.stack}`
-                    );
+                    sendError(res, `Failed to save data, we may soon have a repeating tweet...`, e);
                     return;
                 }
 
@@ -80,11 +64,7 @@ async function testHandler(req, res) {
 
         res.status(200).send(statuses.join(`\n`));
     } catch (e) {
-        res.status(500).send(
-            `General error.
-            Message: ${e.message}
-            Stack: ${e.stack}`
-        );
+        sendError(res, `General error.`, e);
     }
 }
 
@@ -96,4 +76,12 @@ function isShouldTweet(item) {
 
 function createStatus(item) {
     return `${item.title} \n${item.link}`;
+}
+
+function sendError(res, shortDescription, e) {
+    res.status(500).send(
+        `${shortDescription}
+         Message: ${e.message}
+         Stack: ${e.stack}`
+    );
 }
