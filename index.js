@@ -17,6 +17,6 @@ app.use(express.static('public'));
 
 app.all(`/test`, testHandler);
 
-const listener = app.listen(/*process.env.PORT*/ 3000, function () {
+const listener = app.listen(process.env.PORT, function () {
     console.log('Your bot is running on port ' + listener.address().port);
 });
