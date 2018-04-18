@@ -41,9 +41,10 @@ async function testHandler(req, res) {
 
         let statuses = [];
 
-        const candidates = feed.items.slice(0, 3);
+        const candidates = feed.items || [];
         candidates.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
 
+      candidates:
         for (const item of candidates) {
             const shouldTweet = isShouldTweet(item);
 
@@ -73,6 +74,7 @@ async function testHandler(req, res) {
                 }
 
                 statuses.push(`Tweeted ${item.title}`);
+              break candidates;
             } else {
                 statuses.push(`Not tweeted ${item.title}`);
             }
