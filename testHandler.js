@@ -1,6 +1,6 @@
 const dataService = require(`./dataService`);
 const readRss = require(`./rssReader`);
-// const {postTweet} = require(`./twitterService`);
+const {postTweet} = require(`./twitterService`);
 
 const dataFilename = `.data/data.json`;
 module.exports = testHandler;
@@ -42,7 +42,7 @@ async function testHandler(req, res) {
             if (shouldTweet) { // then build a string from item
                 const status = createStatus(item);
                 try {
-                    // postTweet(status);
+                    postTweet(status);
                 } catch (e) {
                     sendError(res, `Failed to post tweet`, e);
                     return;
