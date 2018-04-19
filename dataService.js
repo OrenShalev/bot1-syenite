@@ -14,11 +14,11 @@ function save() {
 
 function isItemTweeted(itemLink) {
     data.tweetedLinks = data.tweetedLinks || {};
-    return data.tweetedLinks[itemLink] === true;
+    return data.tweetedLinks.hasOwnProperty(itemLink);
 }
 function markItemAsTweeted(itemLink) {
     data.tweetedLinks = data.tweetedLinks || {};
-    data.tweetedLinks[itemLink] = true;
+    data.tweetedLinks[itemLink] = new Date();
 }
 
 function readJson(filename) {
