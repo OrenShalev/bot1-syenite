@@ -2,21 +2,23 @@
 TODO
 twitter, app, keys
 data service
-chokidar
-handlers
+chokidar -- maybe not
+handler/s
+tests -- mocha?
 test page
 test data
-log
+LOG!
  */
-// import testt from './testHandler';
+
 const express = require('express'),
     app = express(),
     testHandler = require(`./testHandler`);
 
 app.use(express.static('public'));
 
-app.all(`/test`, testHandler);
+// This bot can read one of a few RSS feeds and then tweet to the appropriate account -- determined by :key.
+app.all(`/tweetRss/:key`, testHandler);
 
-const listener = app.listen(process.env.PORT, function () {
-    console.log('Your bot is running on port ' + listener.address().port);
+const listener = app.listen(process.env.PORT, () => {
+    console.log(`Bot is running on port ${listener.address().port}`);
 });
