@@ -77,30 +77,30 @@ async function testHandler(req, res) {
     }
 }
 
-const key2Details = new Map([
-    [`irrelevant`, {
+const key2Details = {
+    irrelevant: {
         rssUrl: `https://irrelevant.org.il/feed`,
         twitterHandle: `irrelevant_il`
-    }],
-    [`dailytech`, {
+    },
+    dailytech: {
         rssUrl: `https://www.calcalist.co.il/GeneralRSS/0,16335,L-3862,00.xml`,
         twitterHandle: `dailytech_il`
-    }],
-    [`syenite`, {
+    },
+    syenite: {
         rssUrl: defaultRssFeed,
         twitterHandle: defaultTwitterAccount
-    }],
-    [`default`, {
+    },
+    default: {
         rssUrl: defaultRssFeed,
         twitterHandle: defaultTwitterAccount
-    }]
-]);
+    }
+};
 
 function resolveRssAndTwitterFromRequest(key) {
-    if (key2Details.has(key)) {
-        return key2Details.get(key);
+    if (key2Details.hasOwnProperty(key)) {
+        return key2Details[key];
     } else {
-        return key2Details.get(`default`);
+        return key2Details[`default`];
     }
 }
 
