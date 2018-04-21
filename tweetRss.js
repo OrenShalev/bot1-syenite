@@ -7,9 +7,9 @@ const dataFilename = `.data/data.json`;
 const defaultRssFeed = `http://rss.walla.co.il/feed/6?type=main`; // Walla tech, no particular reason.
 const defaultTwitterAccount = `bot1_syenite`; // "It's alive!"
 
-module.exports = testHandler;
+module.exports = tweetRss;
 
-async function testHandler(req, res) {
+async function tweetRss(req, res) {
     try {
         /*
         Read some data
