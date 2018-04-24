@@ -1,9 +1,20 @@
 # bot1-syenite
-Bot that reads RSS feeds and publishes items as tweets.
+Bot that reads RSS feeds and publishes items as tweets. [Here](https://twitter.com/irrelevant_il)'s one of the Twitter accounts run by this project.
+
+## Description
+When triggered by an http/s request, reads an RSS feed, and tweets an item from it if the feed contains an item (or items) which were not tweeted before.
+
+RSS feed items are checked by publication date and the first non-tweeted item is tweeted. 
+
+## Motivation
+I wanted to read new items from [לא רלוונטי](https://irrelevant.org.il/) soon after they are published. While an RSS feed is available, I open my RSS reader rarely. On the other hand, I open Twitter regularly so getting new items in my Twitter feed would work perfectly.
+
+Also, it's a nice exercise with several aspects of development I did not get a chance to try yet.
 
 ## To-do
-- [ ] Complete list of to-dos.
-- [ ] Description what this bot does.
+- [x] Complete list of to-dos.
+- [x] Description what this bot does.
+- [x] Motivation.
 - [ ] Description how the bot works.
 - [ ] Links to Twitter accounts
 - [ ] 3rd-parties used.
