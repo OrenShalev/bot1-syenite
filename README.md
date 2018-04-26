@@ -31,8 +31,8 @@ Damaya and Syenite are characters in the first book of the wonderful trilogy ["T
 - [x] Description what this bot does.
 - [x] Motivation.
 - [ ] Link/s to glitch.
-- [ ] Description how the bot works.
-- [x] Links to Twitter accounts
+- [x] Description how the bot works.
+- [ ] Links to Twitter accounts
 - [ ] 3rd-parties used.
 - [ ] Credits.
 - [x] Explain name.
