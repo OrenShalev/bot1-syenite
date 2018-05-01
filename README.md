@@ -18,13 +18,18 @@ Damaya and Syenite are characters in the first book of the wonderful trilogy ["T
 
 ## ⚙️ How it works
 1. Online service ([uptimerobot](https://uptimerobot.com/)) periodically pings the URL where the app is hosted and listening.
-1. Node.js app hosted on [Glitch](glitch.com), listening to incoming http/s requests. 
-1. The simple [Express](https://www.npmjs.com/package/express) app responds to requests of the form "/tweetRss/:key". There are several defined keys, each of them associated with an RSS feed URL and a Twitter account.
+1. Node.js app hosted on [Glitch](https://glitch.com), listening to incoming http/s requests. If you are unfamiliar with Glitch -- I highly recommend it!
+1. Simple [Express](https://www.npmjs.com/package/express) app responds to requests of the form "/tweetRss/:key". There are several defined keys, each of them associated with an RSS feed URL and a Twitter account.
 1. If the key is recognized, the relevant RSS feed is fetched and parsed with [rss-parser](https://www.npmjs.com/package/rss-parser).
 1. The feed items are iterated on in their chronological order, looking for an item which wasn't tweeted yet. Links which were tweeted are stored in a simple JSON file under .data/ folder which Glitch takes care to persist but is also private -- not a very robust solution but works.
 1. If an untweeted item is found, a tweet is composed and then tweeted with the relevant account using [Twit](https://www.npmjs.com/package/twit). The keys to the twitter accounts are stored in environment variables -- again maybe not ideal but works.
 1. The link is marked as tweeted so it won't be tweeted again in the future.
 1. Once an item is tweeted, no more items are considered for tweeting, so as to not flood with tweets if the bot was down for a while, or just started going over a new feed.
+
+## 🐦 Twitter accounts operated by this bot
+* The glorious Irrelevant bot [@irrelevant_il](https://twitter.com/irrelevant_il), tweeting recommendations from Hanan Cohen's irrelevant.org.il to forward or not to forward rumors and chain letters.
+* Daily Tech bot [@dailytech_il](https://twitter.com/dailytech_il), tweeting the excellent tech column by Yossi Gurevitch at Calcalist.
+* The humble [@bot1_syenite](https://twitter.com/bot1_syenite), used as the first "serious" practice bot, tweeting items from some random RSS feed I found (Walla Tech at the moment.
 
 ## 🐾 To-do
 - [x] List of to-dos.
@@ -32,7 +37,7 @@ Damaya and Syenite are characters in the first book of the wonderful trilogy ["T
 - [x] Motivation.
 - [ ] Link/s to glitch.
 - [x] Description how the bot works.
-- [ ] Links to Twitter accounts
+- [x] Links to Twitter accounts
 - [ ] 3rd-parties used.
 - [ ] Credits.
 - [x] Explain name.
