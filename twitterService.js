@@ -1,17 +1,20 @@
-const Twit = require('twit'),
-    config = {
-        /* Be sure to update the .env file with your API keys. See how to get them: https://botwiki.org/tutorials/how-to-create-a-twitter-app */
-        twitter: {
-            consumer_key: process.env.CONSUMER_KEY,
-            consumer_secret: process.env.CONSUMER_SECRET,
-            access_token: process.env.ACCESS_TOKEN,
-            access_token_secret: process.env.ACCESS_TOKEN_SECRET
-        }
-    },
-    T = new Twit(config.twitter);
+module.exports = { setupAndTweet };
 
-function postTweet(status) {
+const Twit = require('twit');
+
+function setupAndTweet({twitterHandle, status} = {}) {
+    if (!status) {
+        throw new Error(`[${twitterHandle}] Can't tweet without status.`);
+    }
+    
+    const prefix = twitterHandle ? `${twitterHandle}__` : ``;
+    const config = {
+        consumer_key: process.env[`${prefix}CONSUMER_KEY`],
+        consumer_secret: process.env[`${prefix}CONSUMER_SECRET`],
+        access_token: process.env[`${prefix}ACCESS_TOKEN`],
+        access_token_secret: process.env[`${prefix}ACCESS_TOKEN_SECRET`]
+    };
+    const T = new Twit(config);
+    
     T.post('statuses/update', { status });
 }
-
-module.exports = { postTweet };

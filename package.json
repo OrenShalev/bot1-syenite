@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Bot for tweeting items from an RSS feed.",
   "engines": {
-    "node": "8.x"
+    "node": "8.9.x"
   },
   "main": "index.js",
   "scripts": {
