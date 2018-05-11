@@ -1,6 +1,7 @@
 const dataService = require(`./dataService`);
 const readRss = require(`./rssReader`);
 const {setupAndTweet} = require(`./twitterService`);
+const {createStatusFromItem} = require(`./feedItemToStatus`);
 
 const dataFilename = `.data/data.json`;
 
@@ -48,7 +49,7 @@ async function tweetRss(req, res) {
             const shouldTweet = isShouldTweet(item);
 
             if (shouldTweet) { // then build a string from item
-                const status = createStatus(item);
+                const status = createStatusFromItem(item);
                 try {
                     setupAndTweet({twitterHandle, status});
                 } catch (e) {
@@ -108,10 +109,6 @@ function isShouldTweet(item) {
 // big-ass logic here to take a decision
     const tweeted = dataService.isItemTweeted(item.link);
     return !tweeted;
-}
-
-function createStatus(item) {
-    return `${item.title} \n${item.link}`;
 }
 
 function sendError(res, shortDescription, e) {
