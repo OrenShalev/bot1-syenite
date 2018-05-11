@@ -33,7 +33,5 @@
     "twit": "^2.2.9",
     "twitter-text": "^2.0.4"
   },
-  "devDependencies": {
-    "chokidar-cli": "^1.2.0"
-  }
+  "devDependencies": {}
 }
