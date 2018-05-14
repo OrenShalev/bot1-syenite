@@ -21,7 +21,7 @@ async function tweetRss(req, res) {
         */
 
         const key = req.params.key;
-        const {rssUrl, twitterHandle} = resolveRssAndTwitterFromRequest(key);
+        const {rssUrl, twitterHandle, contentField = `description`} = resolveRssAndTwitterFromRequest(key);
 
         try {
             dataService.load();
@@ -49,7 +49,7 @@ async function tweetRss(req, res) {
             const shouldTweet = isShouldTweet(item);
 
             if (shouldTweet) { // then build a string from item
-                const status = createStatusFromItem(item);
+                const status = createStatusFromItem(item, contentField);
                 try {
                     setupAndTweet({twitterHandle, status});
                 } catch (e) {
@@ -81,6 +81,7 @@ async function tweetRss(req, res) {
 const key2Details = {
     irrelevant: {
         rssUrl: `https://irrelevant.org.il/feed`,
+        contentField: `content:encoded`,
         twitterHandle: `irrelevant_il`
     },
     dailytech: {
