@@ -6,13 +6,18 @@ module.exports = {createStatusFromItem};
 function createStatusFromItem(item, contentField) {
     const { title, link } = item,
         content = item[contentField];
+    let titleWithoutTags = title;
+    try {
+      titleWithoutTags = striptags(title).trim();   
+    } catch (e) {}
+  
     if (!content) {
-        return createDefaultStatus(title, link);
+        return createDefaultStatus(titleWithoutTags, link);
     }
 
     try {
         const contentWithoutTags = striptags(content).trim();
-        const status = createStatus(title, contentWithoutTags, link);
+        const status = createStatus(titleWithoutTags, contentWithoutTags, link);
         return status;
     } catch (e) {
         return createDefaultStatus(title, link);

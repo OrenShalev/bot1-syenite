@@ -3,7 +3,10 @@ const fs = require(`fs`);
 const dataFile = `.data/data.json`;
 let data = {};
 
-module.exports = { load, save, isItemTweeted, markItemAsTweeted };
+module.exports = { get, set, load, save, isItemTweeted, markItemAsTweeted };
+
+function get() { return data; }
+function set(dataaa) { data = dataaa; }
 
 function load() {
     data = readJson(dataFile);

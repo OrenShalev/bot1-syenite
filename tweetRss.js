@@ -93,6 +93,10 @@ const key2Details = {
         rssUrl: defaultRssFeed,
         twitterHandle: defaultTwitterAccount
     },
+    blogim: {
+      rssUrl: `http://blogim.info/atom.php`,
+      twitterHandle: `blogim_info`
+    },
     default: {
         rssUrl: defaultRssFeed,
         twitterHandle: defaultTwitterAccount
