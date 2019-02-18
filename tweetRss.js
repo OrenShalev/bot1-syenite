@@ -11,6 +11,9 @@ const defaultTwitterAccount = `bot1_syenite`; // "It's alive!"
 module.exports = tweetRss;
 
 async function tweetRss(req, res) {
+  // will be set in try {}, declaring it here so it's available for catch {}
+  let key = 'unknown'; 
+  
     try {
         /*
         Read some data
@@ -20,7 +23,7 @@ async function tweetRss(req, res) {
         Save data
         */
 
-        const key = req.params.key;
+        key = req.params.key;
         const {rssUrl, twitterHandle, contentField = `content`} = resolveRssAndTwitterFromRequest(key);
 
         try {
@@ -46,7 +49,7 @@ async function tweetRss(req, res) {
 
         candidates:
         for (const item of candidates) {
-            const shouldTweet = isShouldTweet(item);
+            const shouldTweet = isShouldTweet(item, key);
 
             if (shouldTweet) { // then build a string from item
                 const status = createStatusFromItem(item, contentField);
@@ -58,7 +61,8 @@ async function tweetRss(req, res) {
                     return;
                 }
 
-                dataService.markItemAsTweeted(item.link);
+                // dataService.markItemAsTweeted(item.link); // remove when confident next line works
+                dataService.markItemAsTweetedByKey(item.link, key);
                 try {
                     dataService.save();
                 } catch (e) {
@@ -111,10 +115,13 @@ function resolveRssAndTwitterFromRequest(key) {
     }
 }
 
-function isShouldTweet(item) {
-// big-ass logic here to take a decision
-    const tweeted = dataService.isItemTweeted(item.link);
-    return !tweeted;
+function isShouldTweet(item, key) {
+    // big-ass logic here to take a decision
+    const link = item.link;
+    const tweeted = dataService.isItemTweeted(link);
+    const tweeted2 = dataService.isItemTweeted(link) || dataService.isItemTweetedByKey(link, key);
+  
+    return !tweeted2;
 }
 
 function sendError(res, shortDescription, e) {
